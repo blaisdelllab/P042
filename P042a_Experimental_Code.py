@@ -5,6 +5,8 @@ Created on Mon Oct  6 11:18:48 2025
 
 @author: marisacalarco & kayleyozimac
 
+Last updated: 2025-12-11
+
 #This is the code for the 'Extinction of Conditioned Inhibition' project (P041) 
 
 This is an adjacent replication of P021, an off shoot of the 'Suboptimal Choice Task' study
