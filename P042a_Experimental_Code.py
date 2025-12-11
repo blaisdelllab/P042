@@ -5,9 +5,9 @@ Created on Mon Oct  6 11:18:48 2025
 
 @author: marisacalarco & kayleyozimac
 
-Last updated: 2025-12-11
+Last updated 2025-12-11
 
-#This is the code for the 'Extinction of Conditioned Inhibition' project (P041) 
+#This is the code for the 'Extinction of Conditioned Inhibition' project (P042) 
 
 This is an adjacent replication of P021, an off shoot of the 'Suboptimal Choice Task' study
 
@@ -82,7 +82,7 @@ try:
         import pigpio # import pi, OUTPUT
         import csv
         #...including art scripts
-        sys_path.insert(0, str(os_path.expanduser('~')+"/Desktop/Experiments/P041/"))
+        sys_path.insert(0, str(os_path.expanduser('~')+"/Desktop/Experiments/P033/"))
         import graph
         import polygon_fill
         
@@ -156,14 +156,14 @@ class ExperimenterControlPanel(object):
         # should be stored.
         if operant_box_version:
             # Setup the data directory in "Documents"
-            self.data_folder = "P041_data" # The folder within Documents where subject data is kept
+            self.data_folder = "P042_data" # The folder within Documents where subject data is kept
             self.data_folder_directory = str(os_path.expanduser('~'))+"/Desktop/Data/" + self.data_folder
         else: # If not, just save in the current directory the program us being run in 
             self.data_folder_directory = getcwd() + "/data"
         
         # setup the root Tkinter window
         self.control_window = Tk()
-        self.control_window.title("P041a Control Panel")
+        self.control_window.title("P042a Control Panel")
         ##  Next, setup variables within the control panel
         # Subject ID
         self.pigeon_name_list = ["Sting", "Joplin", "Waluigi", "Wenchang"]
@@ -276,7 +276,7 @@ class MainScreen(object):
         self.record_data = record_data
         
         self.root = Toplevel()
-        self.root.title(f"P041 {self.exp_phase_name}: ")
+        self.root.title(f"P042 {self.exp_phase_name}: ")
         self.mainscreen_height = 768
         self.mainscreen_width = 1024
         self.root.bind("<Escape>", self.exit_program)
@@ -348,7 +348,7 @@ class MainScreen(object):
         self.mastercanvas.create_text(512,384,
                                       fill="white",
                                       font="Times 26 italic bold",
-                                      text=f"P041a \n Place bird in box, then press space \n Subject: {self.subject_ID} \n Training Phase: {self.exp_phase_name}")
+                                      text=f"P042a \n Place bird in box, then press space \n Subject: {self.subject_ID} \n Training Phase: {self.exp_phase_name}")
 
     def first_ITI(self, event):
         print("Spacebar pressed -- SESSION STARTED") 
@@ -927,7 +927,7 @@ class MainScreen(object):
         if SessionEnded:
             self.write_data(None, "SessionEnds") # Writes end of session to df
         if self.record_data : # If experimenter has choosen to automatically record data in seperate sheet:
-            myFile_loc = f"{self.data_folder_directory}/{self.subject_ID}/{self.subject_ID}_{self.start_time.strftime('%Y-%m-%d_%H.%M.%S')}_P041a_data-{self.exp_phase_name}Phase.csv" # location of written .csv
+            myFile_loc = f"{self.data_folder_directory}/{self.subject_ID}/{self.subject_ID}_{self.start_time.strftime('%Y-%m-%d_%H.%M.%S')}_P042a_data-{self.exp_phase_name}Phase.csv" # location of written .csv
             
             # This loop writes the data in the matrix to the .csv              
             edit_myFile = open(myFile_loc, 'w', newline='')
