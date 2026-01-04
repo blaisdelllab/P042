@@ -166,7 +166,7 @@ class ExperimenterControlPanel(object):
         self.control_window.title("P042a Control Panel")
         ##  Next, setup variables within the control panel
         # Subject ID
-        self.pigeon_name_list = ["Sting", "Joplin", "Waluigi", "Wenchang"]
+        self.pigeon_name_list = ["Sting", "Joplin", "Odin", "Mario", "Waluigi", "Luigi", "Wenchang", "Itzamna"]
         self.pigeon_name_list.sort() # This alphabetizes the list
         self.pigeon_name_list.insert(0, "TEST")
         
@@ -415,10 +415,10 @@ class MainScreen(object):
         elif self.exp_phase_num == 1: # Extinction Phase
         # Build trial lists for Group No Extinction, Extinction A, Extincion X
             
-            if self.subject_ID in ["Sting", "Joplin", "Waluigi", "TEST"]: 
+            if self.subject_ID in ["Joplin", "Odin", "Wenchang", "Sting", "Mario", "Itzamna", "TEST"]: 
                 self.trial_types = ["A", "B", "C"]
             # Build trial list for Group Extinction X
-            elif self.subject_ID in ["Wenchang"]: 
+            elif self.subject_ID in ["Waluigi", "Luigi"]: 
                 self.trial_types = ["X", "B", "C"]
           
             desired_total = self.max_number_of_trials
@@ -482,14 +482,22 @@ class MainScreen(object):
         self.reinforce_map = {"A": True, "B": True, "C": True, "AX": False, "Y": False}
     
         # Visual spec carried over from your demo
-        
-        self.COLORS = {
-            "A": "#D11C00",
-            "B": "#D10099",
-            "C": "#7D00D1",
-            "X": "#0023D1",
-            "Y": "#D1AE00"
+        if self.subject_ID in ["Joplin", "Odin", "Wenchang", "Waluigi", "TEST"]: 
+            self.COLORS = {
+                "A": "#D11C00",
+                "B": "#D10099",
+                "C": "#7D00D1",
+                "X": "#0023D1",
+                "Y": "#D1AE00"
         }
+        elif self.subject_ID in ["Sting", "Mario", "Luigi", "Itzamna"]:
+            self.COLORS = {
+                "A": "#D11C00",
+                "B": "#D10099",
+                "C": "#7D00D1",
+                "X": "#D1AE00",
+                "Y": "#0023D1"
+            }
         self.POSITIONS = {
             "A": [(0, 1), (1, 0)],
             "B": [(0, 1), (1, 0)],
@@ -675,28 +683,28 @@ class MainScreen(object):
         elif self.exp_phase_num == 1: #Extinction Phase
             
             # No Extinction
-            if self.subject_ID in ["Sting", "TEST"]:  
+            if self.subject_ID in ["Wenchang", "Itzamna", "TEST"]:  
                 if self.trial_type in ("A", "B", "C"):
                     self.root.after(self.stimulus_ms, self.reinforcement_phase)
                 else:
                     self.root.after(self.stimulus_ms, lambda: self.ITI(None))
         
             # Extinction A 
-            elif self.subject_ID == "Joplin": 
+            elif self.subject_ID in ["Joplin", "Sting"]: 
                 if self.trial_type in ("B", "C"):
                     self.root.after(self.stimulus_ms, self.reinforcement_phase)
                 else:
                     self.root.after(self.stimulus_ms, lambda: self.ITI(None)) 
           
             # Extinction C
-            elif self.subject_ID == "Waluigi": 
+            elif self.subject_ID in ["Odin", "Mario"]: 
                 if self.trial_type in ("A", "B"):
                     self.root.after(self.stimulus_ms, self.reinforcement_phase)
                 else:
                     self.root.after(self.stimulus_ms, lambda: self.ITI(None))
 
             # Extinction X
-            elif self.subject_ID == "Wenchang": 
+            elif self.subject_ID in ["Waluigi", "Luigi"]: 
                 if self.trial_type in ("B", "C"):
                     self.root.after(self.stimulus_ms, self.reinforcement_phase)
                 else:
