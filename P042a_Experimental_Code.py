@@ -378,7 +378,6 @@ class MainScreen(object):
                shuffle(block)        # randomize order within block
                self.trial_assignment_list.extend(block)
             
-# @ Kayley here is the updated Y insertion code:
 
         # Optional: add 4 Y exposures in first session (leave False all other days)
             include_Y_this_session = True
@@ -410,8 +409,7 @@ class MainScreen(object):
             print(f"Counts: { {stim: self.trial_assignment_list.count(stim) for stim in self.trial_types} }")
             print(f"Training trial list ({self.max_trials}): {self.trial_assignment_list}")
           
-# @ Kayley, trial assignments for Extinction conditions and then Testing phase:
-        
+
         elif self.exp_phase_num == 1: # Extinction Phase
         # Build trial lists for Group No Extinction, Extinction A, Extincion X
             
@@ -544,6 +542,9 @@ class MainScreen(object):
     def ITI(self, event):
         self.clear_canvas()
         
+        self.trial_stage = 0
+        self.stimulus_start_time = None
+        
         # First check:
         if self.current_trial_counter >= self.max_trials:
             self.exit_program("event")
@@ -653,6 +654,7 @@ class MainScreen(object):
         # Mark stimulus start time and schedule stimulus offset
         self.trial_stage = 1  # stimulus on
         self.trial_start = datetime.now()
+        self.stimulus_start_time = datetime.now()
     
         # Optional label for TEST runs
         if not operant_box_version or self.subject_ID == "TEST":
@@ -667,8 +669,6 @@ class MainScreen(object):
             self.stimulus_ms = 30000
         
         # End of stimulus after self.stimulus_ms
-        
-# @ Kayley, what follows each stimulus (reinforcement or ITI) for all phases of experiment: 
        
         # Training: 
         # If excitor, send to reinforcement; if inhibitor, send to ITI
@@ -773,7 +773,6 @@ class MainScreen(object):
                     *cell_to_xy(r, c),
                     fill=self.COLORS["X"], outline="", tags=("stimulus",)
                 )
-# @ Kayley pretty simple update to draw other 2 compound stimuli:
     
         if trial_type == "BX":
             # A first
@@ -886,7 +885,15 @@ class MainScreen(object):
         print(f"{outcome:>30} | x: {x:^3} y: {y:^3} | Stage: {self.trial_stage:^5} | {str(datetime.now() - self.start_time)}")
 
         # Trial time (excluding ITI)
+        """
         trial_time = round((datetime.now() - self.trial_start - timedelta(milliseconds=self.ITI_duration)).total_seconds(), 5) if self.trial_start else "NA"
+        """
+        trial_time = (
+            round((datetime.now() - self.stimulus_start_time).total_seconds(), 5)
+            if self.stimulus_start_time is not None
+            else
+            round((datetime.now() - self.trial_start).total_seconds() - (self.ITI_duration / 1000), 5)
+        )
 
         # Update counters based on event type
         
