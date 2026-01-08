@@ -166,7 +166,7 @@ class ExperimenterControlPanel(object):
         self.control_window.title("P042a Control Panel")
         ##  Next, setup variables within the control panel
         # Subject ID
-        self.pigeon_name_list = ["Sting", "Joplin", "Odin", "Mario", "Waluigi", "Luigi", "Wenchang", "Itzamna"]
+        self.pigeon_name_list = ["Thoth", "Joplin", "Odin", "Mario", "Waluigi", "Luigi", "Wenchang", "Itzamna"]
         self.pigeon_name_list.sort() # This alphabetizes the list
         self.pigeon_name_list.insert(0, "TEST")
         
@@ -413,7 +413,7 @@ class MainScreen(object):
         elif self.exp_phase_num == 1: # Extinction Phase
         # Build trial lists for Group No Extinction, Extinction A, Extincion X
             
-            if self.subject_ID in ["Joplin", "Odin", "Wenchang", "Sting", "Mario", "Itzamna", "TEST"]: 
+            if self.subject_ID in ["Joplin", "Odin", "Wenchang", "Thoth", "Mario", "Itzamna", "TEST"]: 
                 self.trial_types = ["A", "B", "C"]
             # Build trial list for Group Extinction X
             elif self.subject_ID in ["Waluigi", "Luigi"]: 
@@ -488,7 +488,7 @@ class MainScreen(object):
                 "X": "#0023D1",
                 "Y": "#D1AE00"
         }
-        elif self.subject_ID in ["Sting", "Mario", "Luigi", "Itzamna"]:
+        elif self.subject_ID in ["Thoth", "Mario", "Luigi", "Itzamna"]:
             self.COLORS = {
                 "A": "#D11C00",
                 "B": "#D10099",
@@ -690,7 +690,7 @@ class MainScreen(object):
                     self.root.after(self.stimulus_ms, lambda: self.ITI(None))
         
             # Extinction A 
-            elif self.subject_ID in ["Joplin", "Sting"]: 
+            elif self.subject_ID in ["Joplin", "Thoth"]: 
                 if self.trial_type in ("B", "C"):
                     self.root.after(self.stimulus_ms, self.reinforcement_phase)
                 else:
