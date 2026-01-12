@@ -535,7 +535,8 @@ class MainScreen(object):
             self.ITI_duration = 1 * 3000
             self.root.after(1, lambda: self.ITI(None))
         else:
-            self.root.after(30000, lambda: self.ITI())
+            self.root.after(30000, self.ITI)
+            
             
             
     
