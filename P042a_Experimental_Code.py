@@ -535,7 +535,8 @@ class MainScreen(object):
             self.ITI_duration = 1 * 3000
             self.root.after(1, lambda: self.ITI(None))
         else:
-            self.root.after(30000, self.ITI)
+            self.ITI_duration = 1 * 30000
+            self.root.after(30000, lambda: self.ITI(None))
             
             
             
@@ -566,6 +567,13 @@ class MainScreen(object):
         self.mastercanvas.tag_bind("bkgrd",
                                    "<Button-1>",
                                    lambda event, event_type="ITI_peck": self.write_data(event, event_type))
+        if operant_box_version:
+            rpi_board.write(hopper_light_GPIO_num,
+                    False) # Turn off the hopper light
+            rpi_board.set_servo_pulsewidth(servo_GPIO_num,
+                                   hopper_down_val) # Hopper down
+            rpi_board.write(house_light_GPIO_num, 
+                    False) # Turn off house light
         
         # Optional onscreen ITI text for test mode
         if not operant_box_version or self.subject_ID == "TEST":
