@@ -308,6 +308,7 @@ class MainScreen(object):
             
         self.start_time = datetime.now()
         self.trial_start = None
+        self.stimulus_start_time = None
         if not operant_box_version or self.subject_ID == "TEST":
             self.ITI_duration = 3000
         else: 
