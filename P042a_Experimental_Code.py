@@ -7,19 +7,19 @@ Created on Mon Oct  6 11:18:48 2025
 
 Last updated 2025-12-11
 
-#This is the code for the 'Extinction of Conditioned Inhibition' project (P042) 
+This is the code for the 'Extinction of Conditioned Inhibition' project (P042) 
 
 This is an adjacent replication of P021, an off shoot of the 'Suboptimal Choice Task' study
 
 
 Training Phase: We will begin with excitation training of stimuli A, B, and C along with
-inhibition training of AX, and exposure to Y (4 trials in one of the sessions, TBD when) **
+inhibition training of AX, and exposure to Y (4 trials the first session) 
     Trials begin with an 10s ITI
     Stimulus A, B, C, AX, or Y is then presented for 30s 
-        Stimulus order is randomized
+        Stimulus order is randomized, with constraints on repetition of the same stimulus
     A, B, and C trials are followed by food reward (5s)
     AX and Y trials are never followed by food reward
-    Process repeats 
+    Return to ITI after reward or lack of reward 
 
 
 Extinction Phase: We will divide subjects into four equal sized groups, which will 
@@ -34,11 +34,11 @@ Testing Phase: We will test stimuli B, BX, and BY interspersed with C+ presentat
 B and BX serve as a summation test, while BY serves as a control for external inhibition
 
 
-Recovery phase: After 3 weeks, we will test stimulus A to evaluate if spontaneous
+Recovery Phase: After 3 weeks, we will test stimulus A to evaluate if spontaneous
 recovery has occured for the excitor, for the Extinction A group. If recovery is
 observed, we will then test AX, B, and BX, again with interspersed C+ trials.
 If recovery is not observed, we will re-excite A+ in a second training phase, 
-before completing testing 
+before completing this second testing phase
 
 """
 
@@ -126,6 +126,7 @@ except ModuleNotFoundError:
 setrecursionlimit(5000) 
 
 """
+
 The code below jumpstarts the loop by first building the hopper object and 
 making sure everything is turned off, then passes that object to the
 control_panel. The program is largely recursive and self-contained within each
@@ -611,6 +612,7 @@ class MainScreen(object):
         """Present the current trial's stimulus for self.stimulus_ms, log pecks."""
         
         self.clear_canvas()
+        self.write_data(None, "trial_started")
     
         # Full-screen background (logs background_peck)
         self.mastercanvas.create_rectangle(
