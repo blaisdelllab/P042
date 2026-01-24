@@ -624,7 +624,7 @@ class MainScreen(object):
         )
         
         # Black square receptive field:
-        receptivefield_size = 150  # adjust this to control square size (in pixels)
+        receptivefield_size = 210  # adjust this to control square size (in pixels)
         x_center = self.mainscreen_width / 2
         y_center = self.mainscreen_height / 2
         
