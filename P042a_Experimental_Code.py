@@ -14,7 +14,8 @@ This is an adjacent replication of P021, an off shoot of the 'Suboptimal Choice 
 
 Training Phase: We will begin with excitation training of stimuli A, B, and C along with
 inhibition training of AX, and exposure to Y (4 trials the first session) 
-    Trials begin with an 10s ITI
+    Trials begin with an 10-15s variable ITI
+    There is then a 30s  pre-stimulus phase
     Stimulus A, B, C, AX, or Y is then presented for 30s 
         Stimulus order is randomized, with constraints on repetition of the same stimulus
     A, B, and C trials are followed by food reward (5s)
@@ -311,18 +312,25 @@ class MainScreen(object):
         self.trial_start = None
         self.stimulus_start_time = None
         if not operant_box_version or self.subject_ID == "TEST":
-            self.ITI_duration = 3000
+            self.ITI_duration = choice([3000, 4000, 5000])   # 3–5 sec
+            self.pre_CS_duration = 5000
         else: 
-            self.ITI_duration = 10000
+            self.ITI_duration = choice([
+                10000, 11000, 12000, 13000, 14000,
+                15000, 16000, 17000, 18000, 19000, 20000])  # 10–20 sec
+            self.pre_CS_duration = 30000
         if not operant_box_version or self.subject_ID == "TEST":
             self.hopper_duration = 3000
+# CHANGE LUIGI HOPPER TO 4s here
+        elif self.subject_ID == "Luigi":
+            self.hopper_duration = 4000
         else:
             self.hopper_duration = 5000
         
         self.reinforced_trial_counter = 0
         self.last_written_trial_num = None
         if self.exp_phase_num == 0:
-            self.max_number_of_trials = 100 # 104 when we have exposure Y session
+            self.max_number_of_trials = 60 # 64 if Y on
         else:
             self.max_number_of_trials = 90
             
@@ -333,7 +341,7 @@ class MainScreen(object):
         header_list = [
             "SessionTime", "ExpPhase", "Subject", "Xcord",	"Ycord", "Event",	
             "TrialTime", "TrialStage", "TrialType",	"SignTrackingPecks", "BackgroundPeckNum",
-            "TotalPeckCount", "TrialNum", "ReinforcedTrialNum", "Date"] 
+            "TotalPeckCount", "PreStimulusPecks", "TrialNum", "ReinforcedTrialNum", "Date"] 
         self.session_data_frame.append(header_list)
         self.date = date.today().strftime("%y-%m-%d")
         self.myFile_loc = 'FILL'
@@ -364,14 +372,14 @@ class MainScreen(object):
            # Core training cues per spec: A+/B+/C+, AX-
             
            # Training trial proportions:
-           # 100 total trials (20 blocks of 5)
+           # 60 total trials (10 blocks of 5)
            # Each block: 2 AX-, 1 A+, 1 B+, 1 C+ (randomized order per block)
            
             self.trial_types = ["A", "B", "C", "AX"]
            
            # Define block composition and total trials
             trial_blocks = ["AX", "AX", "A", "B", "C"]
-            n_blocks = 20  # 20 blocks × 5 trials = 100 total
+            n_blocks = 12  # 12 blocks × 5 trials = 60 total
            
             self.trial_assignment_list = []
            
@@ -387,12 +395,12 @@ class MainScreen(object):
                 # Insert 4 Y-trials, one in each 25-trial block
                 import random
                 
-                # Block boundaries: 0–24, 25–49, 50–74, 75–99
+                # Block boundaries: 0–12, 13-24, 25-27, 38-49
                 block_ranges = [
-                    (0, 24),
-                    (25, 49),
-                    (50, 74),
-                    (75, 99),
+                    (0, 12),
+                    (13, 24),
+                    (25, 37),
+                    (38, 49),
                 ]
                 
                 # Pick random insertion indexes
@@ -520,6 +528,7 @@ class MainScreen(object):
         self.target_peck_counter = 0
         self.background_peck_counter = 0
         self.total_peck_counter = 0  
+        self.pre_CS_peck_counter = 0
         
         # Make sure pecks during ITI are saved
         self.mastercanvas.create_rectangle(0, 0,
@@ -589,23 +598,69 @@ class MainScreen(object):
         self.target_peck_counter = 0
         self.background_peck_counter = 0
         self.total_peck_counter = 0  
+        self.pre_CS_peck_counter = 0
         
         # Write last trial’s data
         # self.write_comp_data(False)
         
         # Reset ITI duration after the first trial
+        # Randomize ITI duration each trial using choice()
         if not operant_box_version or self.subject_ID == "TEST":
-            self.ITI_duration = 3000
+            self.ITI_duration = choice([3000, 4000, 5000])   # 3–5 sec
         else:
-            self.ITI_duration = 10000
+            self.ITI_duration = choice([
+                10000, 11000, 12000, 13000, 14000,
+                15000, 16000, 17000, 18000, 19000, 20000
+            ])  # 10–20 sec
 
         # Print headers and trial-type info
         print(f"\n{'*' * 30} Trial {self.current_trial_counter} begins {'*' * 30}")
         print(f"{'Event Type':>30} | Xcord. Ycord. | Stage | Session Time")
         
-        self.root.after(self.ITI_duration, self.stimulus_phase)
+        self.root.after(self.ITI_duration, self.pre_CS_phase)
 
 
+
+
+    def pre_CS_phase(self, event=None):
+        
+        """Present blank screen before stimulus for self.pre_CS_ms, log pecks."""
+        
+        self.clear_canvas()
+        self.write_data(None, "pre_trial_started")
+
+        self.trial_stage = 1 
+        self.trial_start = datetime.now()
+        self.stimulus_start_time = datetime.now()
+
+        # Full-screen background(logs background_peck)
+        self.mastercanvas.create_rectangle(0, 0, 
+                                           self.mainscreen_width,
+                                           self.mainscreen_height,
+                                           fill="black", 
+                                           outline="black", 
+                                           tag="bkgrd")
+        self.mastercanvas.tag_bind("bkgrd",
+                                   "<Button-1>",
+                                   lambda event, event_type="pre_CS_peck": self.write_data(event, event_type))
+        
+        # Optional onscreen ITI text for test mode
+        if not operant_box_version or self.subject_ID == "TEST":
+            self.mastercanvas.create_text(512, 374,
+                                          fill="white",
+                                          font="Times 25 italic bold",
+                                          text=f"pre-CS ({int(self.pre_CS_duration / 1000)} sec.)")
+        
+        # Reset ITI duration after the first trial
+        if not operant_box_version or self.subject_ID == "TEST":
+            self.pre_CS_duration = 5000
+        else:
+            self.pre_CS_duration = 30000
+        
+        self.root.after(self.pre_CS_duration, self.stimulus_phase)
+    
+    
+    
     
     def stimulus_phase(self, event=None):
         
@@ -613,6 +668,7 @@ class MainScreen(object):
         
         self.clear_canvas()
         self.write_data(None, "trial_started")
+        # Peck counts from pre-CS phase reset
     
         # Full-screen background (logs background_peck)
         self.mastercanvas.create_rectangle(
@@ -664,9 +720,9 @@ class MainScreen(object):
                 pass
     
         # Mark stimulus start time and schedule stimulus offset
-        self.trial_stage = 1  # stimulus on
-        self.trial_start = datetime.now()
-        self.stimulus_start_time = datetime.now()
+        self.trial_stage = 2  # stimulus on
+        #self.trial_start = datetime.now()
+        #self.stimulus_start_time = datetime.now()
     
         # Optional label for TEST runs
         if not operant_box_version or self.subject_ID == "TEST":
@@ -733,7 +789,7 @@ class MainScreen(object):
         
     # Reinforcement for excitors
     def reinforcement_phase(self):
-        self.trial_stage = 2
+        self.trial_stage = 3
         # We first need to add one to the reinforcement counter
         self.reinforced_trial_counter += 1
         # In this part of a trial, reinforcement is provided
@@ -913,6 +969,8 @@ class MainScreen(object):
             self.target_peck_counter += 1
         elif outcome == "background_peck":
             self.background_peck_counter += 1
+        elif outcome == "pre_CS_peck":
+            self.pre_CS_peck_counter += 1
             
         # Only count within-trial pecks (exclude ITI pecks)
         
@@ -933,6 +991,7 @@ class MainScreen(object):
             getattr(self, "target_peck_counter", "NA"), # SignTrackingPecks
             getattr(self, "background_peck_counter", "NA"),# BackgroundPeckNum
             getattr(self, "total_peck_counter", "NA"),  #TotalPeckCounter (Sign + Background pecks)
+            getattr(self, "pre_CS_peck_counter", "NA"), #PreStimulusPecks
             self.current_trial_counter,                 # TrialNum
             self.reinforced_trial_counter,              # Reinforced_Trial_Num
             self.date,                                  # Date
@@ -941,7 +1000,7 @@ class MainScreen(object):
         header_list = [
             "SessionTime", "ExpPhase", "Subject", "Xcord",	"Ycord", "Event",	
             "TrialTime", "TrialStage", "TrialType",	"SignTrackingPecks", "BackgroundPeckNum",
-            "TotalPeckCount", "TrialNum", "ReinforcedTrialNum", "Date"] 
+            "TotalPeckCount", "PreStimulusPecks", "TrialNum", "ReinforcedTrialNum", "Date"] 
     
     def write_comp_data(self, SessionEnded):
         # The following function creates a .csv data document. It is either 
