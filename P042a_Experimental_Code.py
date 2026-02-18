@@ -168,7 +168,7 @@ class ExperimenterControlPanel(object):
         self.control_window.title("P042a Control Panel")
         ##  Next, setup variables within the control panel
         # Subject ID
-        self.pigeon_name_list = ["Thoth", "Joplin", "Odin", "Mario", "Jagger", "Luigi", "Wenchang", "Itzamna"]
+        self.pigeon_name_list = ["Thoth", "Joplin", "Odin", "Mario", "Jagger", "Luigi", "Wenchang", "Itzamna", "Vonnegut", "Durrell"]
         self.pigeon_name_list.sort() # This alphabetizes the list
         self.pigeon_name_list.insert(0, "TEST")
         
@@ -332,7 +332,7 @@ class MainScreen(object):
         if self.exp_phase_num == 0:
             self.max_number_of_trials = 60 # 64 if Y on
         else:
-            self.max_number_of_trials = 90
+            self.max_number_of_trials = 60
             
         self.session_data_frame = []
         self.trial_stage = 0
@@ -395,12 +395,12 @@ class MainScreen(object):
                 # Insert 4 Y-trials, one in each 25-trial block
                 import random
                 
-                # Block boundaries: 0–12, 13-24, 25-27, 38-49
+                # Block boundaries: 0–15, 16-30, 31-45, 46-60
                 block_ranges = [
-                    (0, 12),
-                    (13, 24),
-                    (25, 37),
-                    (38, 49),
+                    (0, 15),
+                    (16, 30),
+                    (31, 45),
+                    (46, 60),
                 ]
                 
                 # Pick random insertion indexes
@@ -421,11 +421,12 @@ class MainScreen(object):
           
 
         elif self.exp_phase_num == 1: # Extinction Phase
-        # Build trial lists for Group No Extinction, Extinction A, Extincion X
-            
+        # Thoth, Jagger, Wenchang, Durrell, Vonnegut awaiting assignment 
+        
+        # Build trial lists for Group No Extinction, Extinction A, Extincion X           
             if self.subject_ID in ["Joplin", "Odin", "Wenchang", "Thoth", "Mario", "Itzamna", "TEST"]: 
                 self.trial_types = ["A", "B", "C"]
-            # Build trial list for Group Extinction X
+        # Build trial list for Group Extinction X
             elif self.subject_ID in ["Jagger", "Luigi"]: 
                 self.trial_types = ["X", "B", "C"]
           
@@ -490,7 +491,7 @@ class MainScreen(object):
         self.reinforce_map = {"A": True, "B": True, "C": True, "AX": False, "Y": False}
     
         # Visual spec carried over from your demo
-        if self.subject_ID in ["Joplin", "Odin", "Wenchang", "Jagger", "TEST"]: 
+        if self.subject_ID in ["Joplin", "Odin", "Wenchang", "Jagger", "TEST", "Vonnegut", "Durrell"]: 
             self.COLORS = {
                 "A": "#D11C00",
                 "B": "#D10099",
@@ -750,15 +751,16 @@ class MainScreen(object):
         # If excitor, send to reinforcement; if inhibitor, send to ITI (differs by condition)
         elif self.exp_phase_num == 1: #Extinction Phase
             
-            # No Extinction
-            if self.subject_ID in ["Wenchang", "Itzamna", "TEST"]:  
+            # No Extinction -- NOT USED IN CURRENT DESIGN
+            if self.subject_ID in ["TEST"]:  
                 if self.trial_type in ("A", "B", "C"):
                     self.root.after(self.stimulus_ms, self.reinforcement_phase)
                 else:
                     self.root.after(self.stimulus_ms, lambda: self.ITI(None))
-        
+        # Wenchang, Durrell, Jagger, Vonnegut (blue) awaiting assignment
+        # Thoth (yellow) awaiting assignment 
             # Extinction A 
-            elif self.subject_ID in ["Joplin", "Thoth"]: 
+            elif self.subject_ID in ["Joplin", "Itzamna"]: 
                 if self.trial_type in ("B", "C"):
                     self.root.after(self.stimulus_ms, self.reinforcement_phase)
                 else:
