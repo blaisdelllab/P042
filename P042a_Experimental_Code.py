@@ -5,7 +5,7 @@ Created on Mon Oct  6 11:18:48 2025
 
 @author: marisacalarco & kayleyozimac
 
-Last updated 2025-2-18
+Last updated 2025-2-1
 
 This is the code for the 'Extinction of Conditioned Inhibition' project (P042) 
 
@@ -390,7 +390,7 @@ class MainScreen(object):
             
 
         # Optional: add 4 Y exposures in first session (leave False all other days)
-            include_Y_this_session = False
+            include_Y_this_session = True
             if include_Y_this_session:
                 # Insert 4 Y-trials, one in each 25-trial block
                 import random
@@ -491,7 +491,7 @@ class MainScreen(object):
         self.reinforce_map = {"A": True, "B": True, "C": True, "AX": False, "Y": False}
     
         # Visual spec carried over from your demo
-        if self.subject_ID in ["Joplin", "Odin", "Wenchang", "Jagger", "TEST", "Vonnegut", "Durrell"]: 
+        if self.subject_ID in ["Joplin", "Odin", "Wenchang", "Jagger", "TEST", "Durrell"]: 
             self.COLORS = {
                 "A": "#D11C00",
                 "B": "#D10099",
@@ -499,7 +499,7 @@ class MainScreen(object):
                 "X": "#0023D1",
                 "Y": "#D1AE00"
         }
-        elif self.subject_ID in ["Thoth", "Mario", "Luigi", "Itzamna"]:
+        elif self.subject_ID in ["Thoth", "Mario", "Luigi", "Itzamna", "Vonnegut"]:
             self.COLORS = {
                 "A": "#D11C00",
                 "B": "#D10099",
