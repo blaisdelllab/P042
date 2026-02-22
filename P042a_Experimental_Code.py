@@ -390,7 +390,7 @@ class MainScreen(object):
             
 
         # Optional: add 4 Y exposures in first session (leave False all other days)
-            include_Y_this_session = True
+            include_Y_this_session = False
             if include_Y_this_session:
                 # Insert 4 Y-trials, one in each 25-trial block
                 import random
