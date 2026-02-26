@@ -421,13 +421,13 @@ class MainScreen(object):
           
 
         elif self.exp_phase_num == 1: # Extinction Phase
-        # Thoth, Jagger, Wenchang, Durrell, Vonnegut awaiting assignment 
+        # Jagger, Wenchang, Durrell, Vonnegut awaiting assignment 
         
         # Build trial lists for Group No Extinction, Extinction A, Extincion X           
-            if self.subject_ID in ["Joplin", "Odin", "Wenchang", "Thoth", "Mario", "Itzamna", "TEST"]: 
+            if self.subject_ID in ["Joplin", "Odin", "Wenchang", "Mario", "Itzamna", "TEST"]: 
                 self.trial_types = ["A", "B", "C"]
         # Build trial list for Group Extinction X
-            elif self.subject_ID in ["Jagger", "Luigi"]: 
+            elif self.subject_ID in ["Jagger", "Luigi", "Thoth"]: 
                 self.trial_types = ["X", "B", "C"]
           
             desired_total = self.max_number_of_trials
@@ -757,8 +757,8 @@ class MainScreen(object):
                     self.root.after(self.stimulus_ms, self.reinforcement_phase)
                 else:
                     self.root.after(self.stimulus_ms, lambda: self.ITI(None))
-        # Wenchang, Durrell, Jagger, Vonnegut (blue) awaiting assignment
-        # Thoth (yellow) awaiting assignment 
+        # Wenchang, Durrell, Jagger (blue) awaiting assignment
+        # Vonnegut (yellow) awaiting assignment 
             # Extinction A 
             elif self.subject_ID in ["Joplin", "Itzamna"]: 
                 if self.trial_type in ("B", "C"):
@@ -774,7 +774,7 @@ class MainScreen(object):
                     self.root.after(self.stimulus_ms, lambda: self.ITI(None))
 
             # Extinction X
-            elif self.subject_ID in ["Jagger", "Luigi"]: 
+            elif self.subject_ID in ["Jagger", "Luigi", "Thoth"]: 
                 if self.trial_type in ("B", "C"):
                     self.root.after(self.stimulus_ms, self.reinforcement_phase)
                 else:
