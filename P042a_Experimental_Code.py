@@ -168,7 +168,7 @@ class ExperimenterControlPanel(object):
         self.control_window.title("P042a Control Panel")
         ##  Next, setup variables within the control panel
         # Subject ID
-        self.pigeon_name_list = ["Thoth", "Joplin", "Odin", "Mario", "Jagger", "Luigi", "Wenchang", "Itzamna", "Vonnegut", "Durrell"]
+        self.pigeon_name_list = ["Thoth", "Joplin", "Odin", "Mario", "Luigi", "Itzamna", "Vonnegut", "Durrell"]
         self.pigeon_name_list.sort() # This alphabetizes the list
         self.pigeon_name_list.insert(0, "TEST")
         
@@ -421,13 +421,12 @@ class MainScreen(object):
           
 
         elif self.exp_phase_num == 1: # Extinction Phase
-        # Jagger, Wenchang, Durrell, Vonnegut awaiting assignment 
         
         # Build trial lists for Group No Extinction, Extinction A, Extincion X           
-            if self.subject_ID in ["Joplin", "Odin", "Wenchang", "Mario", "Itzamna", "TEST"]: 
+            if self.subject_ID in ["Joplin", "Odin", "Mario", "Itzamna", "Vonnegut", "TEST"]: 
                 self.trial_types = ["A", "B", "C"]
         # Build trial list for Group Extinction X
-            elif self.subject_ID in ["Jagger", "Luigi", "Thoth"]: 
+            elif self.subject_ID in ["Luigi", "Thoth", "Durrell"]: 
                 self.trial_types = ["X", "B", "C"]
           
             desired_total = self.max_number_of_trials
@@ -491,7 +490,7 @@ class MainScreen(object):
         self.reinforce_map = {"A": True, "B": True, "C": True, "AX": False, "Y": False}
     
         # Visual spec carried over from your demo
-        if self.subject_ID in ["Joplin", "Odin", "Wenchang", "Jagger", "TEST", "Durrell"]: 
+        if self.subject_ID in ["Joplin", "Odin", "TEST", "Durrell"]: 
             self.COLORS = {
                 "A": "#D11C00",
                 "B": "#D10099",
@@ -757,10 +756,9 @@ class MainScreen(object):
                     self.root.after(self.stimulus_ms, self.reinforcement_phase)
                 else:
                     self.root.after(self.stimulus_ms, lambda: self.ITI(None))
-        # Wenchang, Durrell, Jagger (blue) awaiting assignment
-        # Vonnegut (yellow) awaiting assignment 
+
             # Extinction A 
-            elif self.subject_ID in ["Joplin", "Itzamna"]: 
+            elif self.subject_ID in ["Joplin", "Itzamna", "Vonnegut"]: 
                 if self.trial_type in ("B", "C"):
                     self.root.after(self.stimulus_ms, self.reinforcement_phase)
                 else:
@@ -774,7 +772,7 @@ class MainScreen(object):
                     self.root.after(self.stimulus_ms, lambda: self.ITI(None))
 
             # Extinction X
-            elif self.subject_ID in ["Jagger", "Luigi", "Thoth"]: 
+            elif self.subject_ID in ["Luigi", "Thoth", "Durrell"]: 
                 if self.trial_type in ("B", "C"):
                     self.root.after(self.stimulus_ms, self.reinforcement_phase)
                 else:
