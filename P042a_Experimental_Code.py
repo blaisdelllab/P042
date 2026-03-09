@@ -331,6 +331,8 @@ class MainScreen(object):
         self.last_written_trial_num = None
         if self.exp_phase_num == 0:
             self.max_number_of_trials = 60 # 64 if Y on
+        elif self.exp_phase_num == 2:
+            self.max_number_of_trials = 20 # 20 trials for testing
         else:
             self.max_number_of_trials = 60
             
@@ -460,16 +462,27 @@ class MainScreen(object):
             self.trial_types = ["B", "BX", "BY"] 
             
            # Testing trial proportions:
-               # 20 total trials (4 blocks of 5)
-               # Each block: 3 B+, 1 BX-, 1 BY- (randomized order per block)
+               # 20 total trials (5 blocks of 4)
+               # Each block: 2 B+, 1 BX-, 1 BY- (randomized order per block)
+               # First block: start with both B+ 
 
             self.trial_types = ["B", "BX", "BY"]
+            
+            self.trial_assignment_list = []
+            
+            # First block
+            if self.subject_ID in ["Joplin", "Odin", "Luigi", "TEST"]: 
+                first_block = ["B", "B", "B", "BX", "BY"]
+            
+            elif self.subject_ID in ["Itzamna", "Mario", "Thoth", "TEST"]: 
+                first_block = ["B", "B", "B", "BY", "BX"]
+               
+            self.trial_assignment_list.extend(first_block)
 
             # Define block composition and total trials
             trial_blocks = ["B", "B", "B", "BX", "BY"]
-            n_blocks = 4  # 4 blocks × 5 trials = 20 total
+            n_blocks = 3  # 4 blocks total × 5 trials = 20 total
 
-            self.trial_assignment_list = []
 
             for _ in range(n_blocks):
                 block = trial_blocks[:]  
