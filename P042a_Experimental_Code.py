@@ -5,7 +5,7 @@ Created on Mon Oct  6 11:18:48 2025
 
 @author: marisacalarco & kayleyozimac
 
-Last updated 2026-3-8
+Last updated 2025-2-1
 
 This is the code for the 'Extinction of Conditioned Inhibition' project (P042) 
 
@@ -474,7 +474,7 @@ class MainScreen(object):
             if self.subject_ID in ["Joplin", "Odin", "Luigi", "TEST"]: 
                 first_block = ["B", "B", "B", "BX", "BY"]
             
-            elif self.subject_ID in ["Itzamna", "Mario", "Thoth", "TEST"]: 
+            elif self.subject_ID in ["Itzamna", "Mario", "Thoth"]: 
                 first_block = ["B", "B", "B", "BY", "BX"]
                
             self.trial_assignment_list.extend(first_block)
