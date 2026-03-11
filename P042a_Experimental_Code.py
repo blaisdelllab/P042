@@ -5,7 +5,7 @@ Created on Mon Oct  6 11:18:48 2025
 
 @author: marisacalarco & kayleyozimac
 
-Last updated 2026-3-9
+Last updated 2026-3-10
 
 This is the code for the 'Extinction of Conditioned Inhibition' project (P042) 
 
@@ -470,12 +470,15 @@ class MainScreen(object):
             
             self.trial_assignment_list = []
             
+            # SWAP BLOCKS EACH DAY OF TESTING
             # First block
+            # day 1: BX first, day 2: BY first
             if self.subject_ID in ["Joplin", "Odin", "Luigi", "TEST"]: 
-                first_block = ["B", "B", "B", "BX", "BY"]
-            
-            elif self.subject_ID in ["Itzamna", "Mario", "Thoth"]: 
                 first_block = ["B", "B", "B", "BY", "BX"]
+            
+            # day 1: BY first, day 2: BX first
+            elif self.subject_ID in ["Itzamna", "Mario", "Thoth"]: 
+                first_block = ["B", "B", "B", "BX", "BY"]
                
             self.trial_assignment_list.extend(first_block)
 
