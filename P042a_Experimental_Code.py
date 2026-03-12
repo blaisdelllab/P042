@@ -474,11 +474,11 @@ class MainScreen(object):
             # First block
             # day 1: BX first, day 2: BY first
             if self.subject_ID in ["Joplin", "Odin", "Luigi", "TEST"]: 
-                first_block = ["B", "B", "B", "BY", "BX"]
+                first_block = ["B", "B", "B", "BX", "BY"]
             
             # day 1: BY first, day 2: BX first
             elif self.subject_ID in ["Itzamna", "Mario", "Thoth"]: 
-                first_block = ["B", "B", "B", "BX", "BY"]
+                first_block = ["B", "B", "B", "BY", "BX"]
                
             self.trial_assignment_list.extend(first_block)
 
