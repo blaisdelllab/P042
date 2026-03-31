@@ -5,7 +5,7 @@ Created on Mon Oct  6 11:18:48 2025
 
 @author: marisacalarco & kayleyozimac
 
-Last updated 2026-3-10
+Last updated 2026-3-31
 
 This is the code for the 'Extinction of Conditioned Inhibition' project (P042) 
 
@@ -15,7 +15,7 @@ This is an adjacent replication of P021, an off shoot of the 'Suboptimal Choice 
 Training Phase: We will begin with excitation training of stimuli A, B, and C along with
 inhibition training of AX, and exposure to Y (4 trials the first session) 
     Trials begin with an 10-15s variable ITI
-    There is then a 30s  pre-stimulus phase
+    There is then a 30s pre-stimulus phase
     Stimulus A, B, C, AX, or Y is then presented for 30s 
         Stimulus order is randomized, with constraints on repetition of the same stimulus
     A, B, and C trials are followed by food reward (5s)
@@ -23,23 +23,25 @@ inhibition training of AX, and exposure to Y (4 trials the first session)
     Return to ITI after reward or lack of reward 
 
 
-Extinction Phase: We will divide subjects into four equal sized groups, which will 
+Extinction Phase: We will divide subjects into three equal sized groups, which will 
 undergo unique extinction procedures,  
-    Group No-Extinction: No excinction training, presentations of A+, B+, C+ (A+/B+/C+)
     Group Extinction A: Extcinction training of A, B+ and C+ presentattions  (A-/B+/C+)
     Group Extinction X: Extinction training of X, B+ and C+ presentations  (X-/B+/C+)
     Group Extinction C: Extinction training of C, A+ and B+ presentations  (A+/B+/C-)
+    Trials follow the same structure as training 
+        10-15s ITI, 30s pre-stimulus stage, 30s stimulus stage, 
+        5s reward and then ITI or straight to ITI
     
     
-Testing Phase: We will test stimuli B, BX, and BY interspersed with C+ presentations
+Testing Phase: We will test stimuli BX and BY interspersed with B+ presentations
 B and BX serve as a summation test, while BY serves as a control for external inhibition
+    Trials follow the same structure as training 
 
 
-Recovery Phase: After 3 weeks, we will test stimulus A to evaluate if spontaneous
-recovery has occured for the excitor, for the Extinction A group. If recovery is
-observed, we will then test AX, B, and BX, again with interspersed C+ trials.
-If recovery is not observed, we will re-excite A+ in a second training phase, 
-before completing this second testing phase
+Recovery Phase: After 3 weeks, we will test stimulus A, AX, BX, and BY to evaluate if 
+spontaneous recovery has occured with regards to excitor A for the Extinction A group. 
+Again B+ trials will be interspersed. If recovery is not observed, we will re-excite A+ 
+in a second training phase and carry out this second testing phase again.
 
 """
 
@@ -168,7 +170,7 @@ class ExperimenterControlPanel(object):
         self.control_window.title("P042a Control Panel")
         ##  Next, setup variables within the control panel
         # Subject ID
-        self.pigeon_name_list = ["Thoth", "Joplin", "Odin", "Mario", "Luigi", "Itzamna", "Vonnegut", "Durrell"]
+        self.pigeon_name_list = ["Thoth", "Joplin", "Odin", "Mario", "Luigi", "Itzamna", "Vonnegut", "Durrell", "Jagger","Wenchang"]
         self.pigeon_name_list.sort() # This alphabetizes the list
         self.pigeon_name_list.insert(0, "TEST")
         
@@ -184,7 +186,8 @@ class ExperimenterControlPanel(object):
         # Exp phases
         self.experimental_phase_titles = ["Phase 1 (Training)", 
                                           "Phase 2 (Extinction)",
-                                          "Phase 3 (Testing)"]
+                                          "Phase 3 (Testing)",
+                                          "Phase 4 (Recovery)"]
         
         Label(self.control_window, text="Experimental Phase:").pack()
         self.exp_phase_variable = StringVar(self.control_window)
@@ -271,6 +274,8 @@ class MainScreen(object):
             self.exp_phase_name = "Phase 2 (Extinction)"
         if self.exp_phase_num == 2:
             self.exp_phase_name = "Phase 3 (Testing)"
+        if self.exp_phase_num == 3:
+            self.exp_phase_name = "Phase 4 (Recovery)"
             
         self.data_folder_directory = data_folder_directory
     
@@ -333,6 +338,8 @@ class MainScreen(object):
             self.max_number_of_trials = 60 # 64 if Y on
         elif self.exp_phase_num == 2:
             self.max_number_of_trials = 20 # 20 trials for testing
+        elif self.exp_phase_num == 3:
+            self.max_number_of_trials = 28 # 28 trials for spontaneous recovery testing
         else:
             self.max_number_of_trials = 60
             
@@ -459,33 +466,33 @@ class MainScreen(object):
             
         
         elif self.exp_phase_num == 2: # Testing Phase
-            self.trial_types = ["B", "BX", "BY"] 
             
            # Testing trial proportions:
-               # 20 total trials (5 blocks of 4)
-               # Each block: 2 B+, 1 BX-, 1 BY- (randomized order per block)
-               # First block: start with both B+ 
+               # 20 total trials (4 blocks of 5)
+               # Each block: 3 B+, 1 BX-, 1 BY- (randomized order per block)
+               # First block: start with all three B+ 
 
             self.trial_types = ["B", "BX", "BY"]
             
             self.trial_assignment_list = []
-            
-            # SWAP BLOCKS EACH DAY OF TESTING
+           
             # First block
-            # day 1: BX first, day 2: BY first
+        
+            # Counterbalance cue (BX or BY) birds see first by ext. group
+            # BX first
             if self.subject_ID in ["Joplin", "Odin", "Luigi", "TEST"]: 
-                first_block = ["B", "B", "B", "BY", "BX"]
-            
-            # day 1: BY first, day 2: BX first
-            elif self.subject_ID in ["Itzamna", "Mario", "Thoth"]: 
                 first_block = ["B", "B", "B", "BX", "BY"]
+            
+            # BY first
+            elif self.subject_ID in ["Itzamna", "Mario", "Thoth"]: 
+                first_block = ["B", "B", "B", "BY", "BX"]
                
             self.trial_assignment_list.extend(first_block)
 
+            # Create rest of trial blocks
             # Define block composition and total trials
             trial_blocks = ["B", "B", "B", "BX", "BY"]
             n_blocks = 3  # 4 blocks total × 5 trials = 20 total
-
 
             for _ in range(n_blocks):
                 block = trial_blocks[:]  
@@ -498,6 +505,46 @@ class MainScreen(object):
             # Confirm trial list built correctly 
             print(f"Counts: { {stim: self.trial_assignment_list.count(stim) for stim in self.trial_types} }")
             print(f"Testing trial list ({self.max_trials}): {self.trial_assignment_list}")  
+            
+        elif self.exp_phase_num == 3: # Recovery Phase
+            
+           # Testing trial proportions:
+               # 28 total trials (4 blocks of 7)
+               # Each block: 1 A-, 1 AX-, 3 B+, 1 BX-, 1 BY- (randomized order per block)
+               # First block: start with all three B+ 
+
+            self.trial_types = ["A", "AX", "B", "BX", "BY"] 
+            
+            self.trial_assignment_list = []
+
+            # First block
+            
+            # Show B+ trials first
+
+            first_block_half1 = ["B", "B", "B"]
+               
+            self.trial_assignment_list.extend(first_block_half1)
+            
+            first_block_half2 = ["A", "AX", "BX", "BY"]
+            shuffle(first_block_half2)        # randomize order within block
+            self.trial_assignment_list.extend(first_block_half2)
+
+            # Create rest of trial blocks
+            # Define block composition and total trials
+            trial_blocks = ["B", "B", "B", "A", "AX", "BX", "BY"]
+            n_blocks = 3  # 4 blocks total × 7 trials = 28 total
+
+            for _ in range(n_blocks):
+                block = trial_blocks[:]  
+                shuffle(block)        # randomize order within block
+                self.trial_assignment_list.extend(block)
+            
+            # Update trial count
+            self.max_trials = len(self.trial_assignment_list)
+            
+            # Confirm trial list built correctly 
+            print(f"Counts: { {stim: self.trial_assignment_list.count(stim) for stim in self.trial_types} }")
+            print(f"Recovery trial list ({self.max_trials}): {self.trial_assignment_list}") 
         
     
         # Session timing constants
@@ -506,7 +553,8 @@ class MainScreen(object):
         self.reinforce_map = {"A": True, "B": True, "C": True, "AX": False, "Y": False}
     
         # Visual spec carried over from your demo
-        if self.subject_ID in ["Joplin", "Odin", "TEST", "Durrell"]: 
+        # BLUE X
+        if self.subject_ID in ["Joplin", "Odin", "TEST", "Durrell", "Jagger", "Wenchang"]: 
             self.COLORS = {
                 "A": "#D11C00",
                 "B": "#D10099",
@@ -514,6 +562,7 @@ class MainScreen(object):
                 "X": "#0023D1",
                 "Y": "#D1AE00"
         }
+        #YELLOW X
         elif self.subject_ID in ["Thoth", "Mario", "Luigi", "Itzamna", "Vonnegut"]:
             self.COLORS = {
                 "A": "#D11C00",
@@ -797,6 +846,14 @@ class MainScreen(object):
         # Testing: 
         # If B+, send to reinforcement; if test trial, send to ITI
         elif self.exp_phase_num == 2: #Testing Phase
+            if self.trial_type in ("B"):
+                self.root.after(self.stimulus_ms, self.reinforcement_phase)
+            else:
+                self.root.after(self.stimulus_ms, lambda: self.ITI(None))
+                
+        # Recovery: 
+        # If B+, send to reinforcement; if test trial, send to ITI
+        elif self.exp_phase_num == 3: #Recovery Phase
             if self.trial_type in ("B"):
                 self.root.after(self.stimulus_ms, self.reinforcement_phase)
             else:
