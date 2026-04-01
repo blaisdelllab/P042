@@ -5,7 +5,7 @@ Created on Mon Oct  6 11:18:48 2025
 
 @author: marisacalarco & kayleyozimac
 
-Last updated 2026-3-31
+Last updated 2026-4-1
 
 This is the code for the 'Extinction of Conditioned Inhibition' project (P042) 
 
@@ -520,14 +520,14 @@ class MainScreen(object):
             # First block
             
             # Show B+ trials first
-
-            first_block_half1 = ["B", "B", "B"]
-               
-            self.trial_assignment_list.extend(first_block_half1)
+            if self.subject_ID in ["Joplin", "Odin", "Luigi", "TEST"]: 
+                first_block = ["B", "B", "B", "BX", "BY", "A", "AX"]
             
-            first_block_half2 = ["A", "AX", "BX", "BY"]
-            shuffle(first_block_half2)        # randomize order within block
-            self.trial_assignment_list.extend(first_block_half2)
+            # BY first
+            elif self.subject_ID in ["Itzamna", "Mario", "Thoth"]: 
+                first_block = ["B", "B", "B", "BY", "BX", "A", "AX"]
+                
+            self.trial_assignment_list.extend(first_block)
 
             # Create rest of trial blocks
             # Define block composition and total trials
