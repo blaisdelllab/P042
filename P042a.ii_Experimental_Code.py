@@ -5,12 +5,13 @@ Created on Fri Apr  3 11:29:48 2026
 
 @author: marisacalarco & kayleyozimac
 
-Last updated 2026-4-3
+Last updated 2026-4-6
 
 This is the code for the 'Extinction of Conditioned Inhibition' project (P042) 
 ITERATION 2
 
-This is an adjacent replication of P021, an off shoot of the 'Suboptimal Choice Task' study
+This is an adjacent replication of P021, an off shoot of the 'Suboptimal Choice Task' study.
+It follows the same logic as Iteration 1, but with different stimuli.
 
 
 Training Phase: We will begin with excitation training of stimuli A, B, and C along with
