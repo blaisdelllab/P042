@@ -480,11 +480,11 @@ class MainScreen(object):
         
             # Counterbalance cue (BX or BY) birds see first by ext. group
             # BX first
-            if self.subject_ID in ["Joplin", "Odin", "Luigi", "TEST"]: 
+            if self.subject_ID in ["Joplin", "Odin", "Luigi", "Vonnegut", "TEST"]: 
                 first_block = ["B", "B", "B", "BX", "BY"]
             
             # BY first
-            elif self.subject_ID in ["Itzamna", "Mario", "Thoth"]: 
+            elif self.subject_ID in ["Itzamna", "Mario", "Thoth", "Durrell"]: 
                 first_block = ["B", "B", "B", "BY", "BX"]
                
             self.trial_assignment_list.extend(first_block)
@@ -891,6 +891,7 @@ class MainScreen(object):
 
 ####Don't worry about for now -------------------------------------------------
         
+    
     def _draw_stimulus_rects(self, trial_type: str):
         """
         Draw the colored squares for A/B/C/X/Y or the AX compound
