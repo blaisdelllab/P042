@@ -5,13 +5,12 @@ Created on Fri Apr  3 11:29:48 2026
 
 @author: marisacalarco & kayleyozimac
 
-Last updated 2026-4-6
+Last updated 2026-4-3
 
 This is the code for the 'Extinction of Conditioned Inhibition' project (P042) 
 ITERATION 2
 
-This is an adjacent replication of P021, an off shoot of the 'Suboptimal Choice Task' study.
-It follows the same logic as Iteration 1, but with different stimuli.
+This is an adjacent replication of P021, an off shoot of the 'Suboptimal Choice Task' study
 
 
 Training Phase: We will begin with excitation training of stimuli A, B, and C along with
@@ -401,7 +400,7 @@ class MainScreen(object):
             
 
         # Optional: add 4 Y exposures in first session (leave False all other days)
-            include_Y_this_session = True
+            include_Y_this_session = False
             if include_Y_this_session:
                 # Insert 4 Y-trials, one in each 25-trial block
                 import random
