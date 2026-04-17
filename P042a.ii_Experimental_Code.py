@@ -445,10 +445,10 @@ class MainScreen(object):
             
         
         # Build trial lists for Extinction A, Extinction X Extinction C          
-            if self.subject_ID in ["Joplin", "Odin", "Mario", "Itzamna", "Vonnegut", "TEST"]: 
+            if self.subject_ID in ["Thoth", "Odin", "Itzamna", "Luigi", "TEST"]: 
                 self.trial_types = ["A", "B", "C"]
         # Build trial list for Group Extinction X
-            elif self.subject_ID in ["Luigi", "Thoth", "Durrell"]: 
+            elif self.subject_ID in ["Joplin", "Mario"]: 
                 self.trial_types = ["X", "B", "C"]
           
             desired_total = self.max_number_of_trials
@@ -836,21 +836,21 @@ class MainScreen(object):
                     self.root.after(self.stimulus_ms, lambda: self.ITI(None))
 
             # Extinction A 
-            elif self.subject_ID in ["Joplin", "Itzamna", "Vonnegut"]: 
+            elif self.subject_ID in ["Thoth", "Odin"]: 
                 if self.trial_type in ("B", "C"):
                     self.root.after(self.stimulus_ms, self.reinforcement_phase)
                 else:
                     self.root.after(self.stimulus_ms, lambda: self.ITI(None)) 
           
             # Extinction C
-            elif self.subject_ID in ["Odin", "Mario"]: 
+            elif self.subject_ID in ["Itzamna", "Luigi"]: 
                 if self.trial_type in ("A", "B"):
                     self.root.after(self.stimulus_ms, self.reinforcement_phase)
                 else:
                     self.root.after(self.stimulus_ms, lambda: self.ITI(None))
 
             # Extinction X
-            elif self.subject_ID in ["Luigi", "Thoth", "Durrell"]: 
+            elif self.subject_ID in ["Joplin", "Mario"]: 
                 if self.trial_type in ("B", "C"):
                     self.root.after(self.stimulus_ms, self.reinforcement_phase)
                 else:

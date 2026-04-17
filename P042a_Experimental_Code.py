@@ -432,7 +432,7 @@ class MainScreen(object):
         elif self.exp_phase_num == 1: # Extinction Phase
         
         # Build trial lists for Group No Extinction, Extinction A, Extincion X           
-            if self.subject_ID in ["Joplin", "Odin", "Mario", "Itzamna", "Vonnegut", "TEST"]: 
+            if self.subject_ID in ["Joplin", "Odin", "Mario", "Itzamna", "Wenchang", "Vonnegut", "TEST"]: 
                 self.trial_types = ["A", "B", "C"]
         # Build trial list for Group Extinction X
             elif self.subject_ID in ["Luigi", "Thoth", "Durrell"]: 
@@ -520,11 +520,11 @@ class MainScreen(object):
             # First block
             
             # Show B+ trials first
-            if self.subject_ID in ["Joplin", "Odin", "Luigi", "TEST"]: 
+            if self.subject_ID in ["Joplin", "Odin", "Luigi", "TEST", "Vonnegut"]: 
                 first_block = ["B", "B", "B", "BX", "BY", "A", "AX"]
             
             # BY first
-            elif self.subject_ID in ["Itzamna", "Mario", "Thoth"]: 
+            elif self.subject_ID in ["Itzamna", "Mario", "Thoth", "Durrell"]: 
                 first_block = ["B", "B", "B", "BY", "BX", "A", "AX"]
                 
             self.trial_assignment_list.extend(first_block)
@@ -830,7 +830,7 @@ class MainScreen(object):
                     self.root.after(self.stimulus_ms, lambda: self.ITI(None)) 
           
             # Extinction C
-            elif self.subject_ID in ["Odin", "Mario"]: 
+            elif self.subject_ID in ["Odin", "Mario", "Wenchang"]: 
                 if self.trial_type in ("A", "B"):
                     self.root.after(self.stimulus_ms, self.reinforcement_phase)
                 else:
