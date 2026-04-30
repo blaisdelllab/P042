@@ -480,7 +480,7 @@ class MainScreen(object):
         
             # Counterbalance cue (BX or BY) birds see first by ext. group
             # BX first
-            if self.subject_ID in ["Joplin", "Odin", "Luigi", "Vonnegut", "TEST"]: 
+            if self.subject_ID in ["Joplin", "Odin", "Luigi", "Vonnegut", "Wenchang", "TEST"]: 
                 first_block = ["B", "B", "B", "BX", "BY"]
             
             # BY first
@@ -520,7 +520,7 @@ class MainScreen(object):
             # First block
             
             # Show B+ trials first
-            if self.subject_ID in ["Joplin", "Odin", "Luigi", "TEST", "Vonnegut"]: 
+            if self.subject_ID in ["Joplin", "Odin", "Luigi", "TEST", "Vonnegut", "Wenchang"]: 
                 first_block = ["B", "B", "B", "BX", "BY", "A", "AX"]
             
             # BY first
