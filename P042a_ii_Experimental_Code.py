@@ -7,7 +7,7 @@ Created on Fri Apr  3 11:29:48 2026
 Last updated 2026-4-3
 
 This is the code for the 'Extinction of Conditioned Inhibition' project (P042) 
-ITERATION 2
+ITERATION 2 (P042a.ii)
 
 This is an adjacent replication of P021, an off shoot of the 'Suboptimal Choice Task' study
 
@@ -170,7 +170,7 @@ class ExperimenterControlPanel(object):
         self.control_window.title("P042a.ii Control Panel")
         ##  Next, setup variables within the control panel
         # Subject ID
-        self.pigeon_name_list = ["Thoth", "Joplin", "Odin", "Mario", "Luigi", "Itzamna", "Durrell", "Vonnegut"]
+        self.pigeon_name_list = ["Thoth", "Joplin", "Odin", "Mario", "Luigi", "Itzamna", "Durrell", "Vonnegut", "Wenchang"]
         self.pigeon_name_list.sort() # This alphabetizes the list
         self.pigeon_name_list.insert(0, "TEST")
         
@@ -449,7 +449,7 @@ class MainScreen(object):
             if self.subject_ID in ["Thoth", "Odin", "Itzamna", "Luigi", "Durrell", "Vonnegut", "TEST"]: 
                 self.trial_types = ["A", "B", "C"]
         # Build trial list for Group Extinction X
-            elif self.subject_ID in ["Joplin", "Mario"]: 
+            elif self.subject_ID in ["Joplin", "Mario", "Wenchang"]: 
                 self.trial_types = ["X", "B", "C"]
           
             desired_total = self.max_number_of_trials
@@ -494,7 +494,7 @@ class MainScreen(object):
         
             # Counterbalance cue (BX or BY) birds see first by ext. group
             # BX first
-            if self.subject_ID in ["Joplin", "Odin", "Luigi", "Vonnegut", "TEST"]: 
+            if self.subject_ID in ["Joplin", "Odin", "Luigi", "Vonnegut", "Wenchang", "TEST"]: 
                 first_block = ["B", "B", "B", "BX", "BY"]
             
             # BY first
@@ -534,7 +534,7 @@ class MainScreen(object):
             # First block
             
             # Show B+ trials first
-            if self.subject_ID in ["Joplin", "Odin", "Luigi", "Vonnegut", "TEST"]: 
+            if self.subject_ID in ["Joplin", "Odin", "Luigi", "Vonnegut", "Wenchang", "TEST"]: 
                 first_block = ["B", "B", "B", "BX", "BY", "A", "AX"]
             
             # BY first
@@ -577,7 +577,7 @@ class MainScreen(object):
                 "Y": "#FF2F6D" # rose
         }
         #YELLOW X
-        elif self.subject_ID in ["Odin", "Mario", "Luigi", "Vonnegut"]:
+        elif self.subject_ID in ["Odin", "Mario", "Luigi", "Vonnegut", "Wenchang"]:
             self.COLORS = {
                 "A": "#00A6A6", # teal
                 "B": "#FF6F00", # orange
@@ -851,7 +851,7 @@ class MainScreen(object):
                     self.root.after(self.stimulus_ms, lambda: self.ITI(None))
 
             # Extinction X
-            elif self.subject_ID in ["Joplin", "Mario"]: 
+            elif self.subject_ID in ["Joplin", "Mario", "Wenchang"]: 
                 if self.trial_type in ("B", "C"):
                     self.root.after(self.stimulus_ms, self.reinforcement_phase)
                 else:
