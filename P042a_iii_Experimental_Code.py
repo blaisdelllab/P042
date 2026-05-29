@@ -411,11 +411,29 @@ class MainScreen(object):
 
         # Load, resize, rotate 45 degrees, and store each image.
         # If ANY image file is missing the session will not start.
+        
+        # Counterbalance X and Y stimuli 
+        if self.subject_ID in ["Luigi", "Itzamna", "Joplin", "Wenchang", "TEST"]:
+            file_map = {
+                        "A": "A_iii.bmp",
+                        "B": "B_iii.bmp",
+                        "C": "C_iii.bmp",
+                        "X": "X_iii.bmp",
+                        "Y": "Y_iii.bmp"
+                    }
+        elif self.subject_ID in ["Mario", "Odin", "Thoth", "Vonnegut", "Durrell"]:
+            file_map = {
+                        "A": "A_iii.bmp",
+                        "B": "B_iii.bmp",
+                        "C": "C_iii.bmp",
+                        "X": "X2_iii.bmp",
+                        "Y": "Y2_iii.bmp"
+                    }
+            
         self.stimulus_images = {}
         missing = []
-        for stim_key in ["A", "B", "C", "X", "Y"]:
-            img_path = os_path.join(self.stimuli_path, f"{stim_key}_iii.bmp") 
-            # images named A_iii.bmp in folder, etc.
+        for stim_key, filename in file_map.items():
+            img_path = os_path.join(self.stimuli_path, filename)
             if not os_path.isfile(img_path):
                 missing.append(img_path)
             else:
@@ -425,6 +443,7 @@ class MainScreen(object):
                 img_rot = img.rotate(45, expand=True, resample=Image.BICUBIC)
                 self.stimulus_images[stim_key] = ImageTk.PhotoImage(img_rot)
                 print(f"Loaded & rotated stimulus image: {img_path}")
+                
 
         if missing:
             self.root.destroy()
@@ -433,18 +452,7 @@ class MainScreen(object):
                 + "\n".join(f"  {p}" for p in missing)
                 + f"\n\nExpected folder: {self.stimuli_path}"
                 + "\nSession aborted. Please add the missing files and restart."
-            )
-        
-        # Counterbalance X and Y stimuli 
-        if self.subject_ID in ["Luigi", "Itzamna", "Joplin", "Wenchang", "TEST"]:
-            # Standard assignment
-            self.img_key = {"A": "A", "B": "B", "C": "C", "X": "X", "Y": "Y"}
-            print("Image assignment: STANDARD (X->X image, Y->Y image)")
-        else:
-            # Swapped assignment (Mario, Odin, Thoth, Vonnegut, Durrell)
-            self.img_key = {"A": "A", "B": "B", "C": "C", "X": "Y", "Y": "X"}
-            print("Image assignment: SWAPPED  (X->Y image, Y->X image)")
-            
+            ) 
         
         self.place_birds_in_box()
         
@@ -819,21 +827,7 @@ class MainScreen(object):
             outline="black", 
             tag="bkgrd"
         )
-        """
-        # Black square receptive field:
-        receptivefield_size = 210  # adjust this to control square size (in pixels)
-        x_center = self.mainscreen_width / 2
-        y_center = self.mainscreen_height / 2
-        
-        self.mastercanvas.create_rectangle(
-            x_center - receptivefield_size / 2,
-            y_center - receptivefield_size / 2,
-            x_center + receptivefield_size / 2,
-            y_center + receptivefield_size / 2,
-            fill="white", # 
-            outline="black",
-            tag="receptivefield"
-        )      """
+
         # Receptive field: diamond (square rotated 45 degrees) centred on screen.
         # receptivefield_size is the tip-to-tip span of the diamond.
         receptivefield_size = 297
@@ -846,7 +840,7 @@ class MainScreen(object):
             x_center + half, y_center,           # right tip
             x_center,        y_center + half,    # bottom tip
             x_center - half, y_center,           # left tip
-            fill="white",
+            fill="black",
             outline="black",
             tag="receptivefield"
         )
