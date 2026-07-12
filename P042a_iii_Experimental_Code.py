@@ -186,9 +186,10 @@ class ExperimenterControlPanel(object):
         
         # Exp phases
         self.experimental_phase_titles = ["Phase 1 (Training)", 
-                                          "Phase 2 (Extinction)",
-                                          "Phase 3 (Testing)",
-                                          "Phase 4 (Recovery)"]
+                                          "Phase 2 (First Test)",
+                                          "Phase 3 (Extinction)",
+                                          "Phase 4 (Second Test)",
+                                          "Phase 5 (Recovery)"]
         
         Label(self.control_window, text="Experimental Phase:").pack()
         self.exp_phase_variable = StringVar(self.control_window)
@@ -273,11 +274,13 @@ class MainScreen(object):
         if self.exp_phase_num == 0:
             self.exp_phase_name = "Phase 1 (Training)"
         if self.exp_phase_num == 1:
-            self.exp_phase_name = "Phase 2 (Extinction)"
+            self.exp_phase_name = "Phase 2 (First Test)"
         if self.exp_phase_num == 2:
-            self.exp_phase_name = "Phase 3 (Testing)"
+            self.exp_phase_name = "Phase 3 (Extinction)"
         if self.exp_phase_num == 3:
-            self.exp_phase_name = "Phase 4 (Recovery)"
+            self.exp_phase_name = "Phase 4 (Second Test)"
+        if self.exp_phase_num == 3:
+            self.exp_phase_name = "Phase 5 (Recovery)"
             
         self.data_folder_directory = data_folder_directory
     
@@ -527,9 +530,50 @@ class MainScreen(object):
             # Confirm trial list built correctly 
             print(f"Counts: { {stim: self.trial_assignment_list.count(stim) for stim in self.trial_types} }")
             print(f"Training trial list ({self.max_trials}): {self.trial_assignment_list}")
-          
+        
+        elif self.exp_phase_num == 1: # First Testing Phase 
+            
+           # Testing trial proportions:
+               # 20 total trials (4 blocks of 5)
+               # Each block: 3 B+, 1 BX-, 1 BY- (randomized order per block)
+               # First block: start with all three B+ 
 
-        elif self.exp_phase_num == 1: # Extinction Phase
+            self.trial_types = ["B", "BX", "BY"]
+            
+            self.trial_assignment_list = []
+           
+            # First block
+        
+            # Counterbalance cue (BX or BY) birds see first by ext. group
+            # BX first
+            if self.subject_ID in ["Joplin", "Odin", "Luigi", "Wenchang", "TEST"]: 
+                first_block = ["B", "B", "B", "BX", "BY"]
+            
+            # BY first
+            elif self.subject_ID in ["Itzamna", "Mario", "Thoth", "Vonnegut", "Durrell"]: 
+                first_block = ["B", "B", "B", "BY", "BX"]
+               
+            self.trial_assignment_list.extend(first_block)
+
+            # Create rest of trial blocks
+            # Define block composition and total trials
+            trial_blocks = ["B", "B", "B", "BX", "BY"]
+            n_blocks = 3  # 4 blocks total × 5 trials = 20 total
+
+            for _ in range(n_blocks):
+                block = trial_blocks[:]  
+                shuffle(block)        # randomize order within block
+                self.trial_assignment_list.extend(block)
+            
+            # Update trial count
+            self.max_trials = len(self.trial_assignment_list)
+            
+            # Confirm trial list built correctly 
+            print(f"Counts: { {stim: self.trial_assignment_list.count(stim) for stim in self.trial_types} }")
+            print(f"Testing trial list ({self.max_trials}): {self.trial_assignment_list}")  
+            
+
+        elif self.exp_phase_num == 2: # Extinction Phase
         
         #group assignments 
         
@@ -582,7 +626,7 @@ class MainScreen(object):
             print(f"Extinction trial list ({self.max_trials}): {self.trial_assignment_list}")
             
         
-        elif self.exp_phase_num == 2: # Testing Phase
+        elif self.exp_phase_num == 3: # Second Testing Phase 
             
            # Testing trial proportions:
                # 20 total trials (4 blocks of 5)
@@ -623,7 +667,7 @@ class MainScreen(object):
             print(f"Counts: { {stim: self.trial_assignment_list.count(stim) for stim in self.trial_types} }")
             print(f"Testing trial list ({self.max_trials}): {self.trial_assignment_list}")  
             
-        elif self.exp_phase_num == 3: # Recovery Phase
+        elif self.exp_phase_num == 4: # Recovery Phase
             
            # Testing trial proportions:
                # 28 total trials (4 blocks of 7)
@@ -897,10 +941,18 @@ class MainScreen(object):
                 self.root.after(self.stimulus_ms, self.reinforcement_phase)
             else:
                 self.root.after(self.stimulus_ms, lambda: self.ITI(None))
+
+        # First Testing: 
+        # If B+, send to reinforcement; if test trial, send to ITI
+        elif self.exp_phase_num == 1: #Testing Phase
+            if self.trial_type in ("B"):
+                self.root.after(self.stimulus_ms, self.reinforcement_phase)
+            else:
+                self.root.after(self.stimulus_ms, lambda: self.ITI(None))
                 
         # Extinction: 
         # If excitor, send to reinforcement; if inhibitor, send to ITI (differs by condition)
-        elif self.exp_phase_num == 1: #Extinction Phase
+        elif self.exp_phase_num == 2: #Extinction Phase
             
             # No Extinction -- NOT USED IN CURRENT DESIGN
             if self.subject_ID in ["TEST"]:  
@@ -930,9 +982,9 @@ class MainScreen(object):
                 else:
                     self.root.after(self.stimulus_ms, lambda: self.ITI(None))
                 
-        # Testing: 
+        # Second Testing: 
         # If B+, send to reinforcement; if test trial, send to ITI
-        elif self.exp_phase_num == 2: #Testing Phase
+        elif self.exp_phase_num == 3: #Testing Phase
             if self.trial_type in ("B"):
                 self.root.after(self.stimulus_ms, self.reinforcement_phase)
             else:
@@ -940,7 +992,7 @@ class MainScreen(object):
                 
         # Recovery: 
         # If B+, send to reinforcement; if test trial, send to ITI
-        elif self.exp_phase_num == 3: #Recovery Phase
+        elif self.exp_phase_num == 4: #Recovery Phase
             if self.trial_type in ("B"):
                 self.root.after(self.stimulus_ms, self.reinforcement_phase)
             else:
