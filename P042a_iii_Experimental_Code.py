@@ -5,7 +5,7 @@ Created on Thu May 28 16:41:47 2026
 
 @author: marisacalarco & kayleyozimac
 
-Last updated 2026-5-28
+Last updated 2026-7-13
 
 This is the code for the 'Extinction of Conditioned Inhibition' project (P042) 
 ITERATION 3 (P042a.iii)
