@@ -5,7 +5,7 @@ Created on Thu May 28 16:41:47 2026
 
 @author: marisacalarco & kayleyozimac
 
-Last updated 2026-7-13
+Last updated 2026-5-28
 
 This is the code for the 'Extinction of Conditioned Inhibition' project (P042) 
 ITERATION 3 (P042a.iii)
@@ -341,9 +341,13 @@ class MainScreen(object):
         self.last_written_trial_num = None
         if self.exp_phase_num == 0:
             self.max_number_of_trials = 60 # 64 if Y on
-        elif self.exp_phase_num == 2:
+        elif self.exp_phase_num == 1:
             self.max_number_of_trials = 20 # 20 trials for testing
+        elif self.exp_phase_num == 2:
+            self.max_number_of_trials = 60 # 60 trials for extinction
         elif self.exp_phase_num == 3:
+            self.max_number_of_trials = 20 # 20 trials for testing
+        elif self.exp_phase_num == 4:
             self.max_number_of_trials = 28 # 28 trials for spontaneous recovery testing
         else:
             self.max_number_of_trials = 60
